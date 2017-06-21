@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://wwww.thymeleaf.org">
+<head th:replace="fragments :: head">
+</head>
+
+
+<body class="container">
+<h1 th:text="${title}"></h1>
+<div th:replace="fragments :: page-header"></div>
+
+<table class="table" th:object="${film}">
+    <tr>
+        <th>Year</th>
+        <th>Name</th>
+        <th>IMDB Rating</th>
+        <th>Meta Rating</th>
+        <th>Rotten Rating</th>
+        <th>TMDB Rating</th>
+        <th>Average</th>
+        <th>KOFD ID</th>
+    </tr>
+    <tr>
+        <td th:text="*{year}"></td>
+        <td><a th:text="*{name}" th:href="@{'http://m.imdb.com/title/'+*{imdbId}}"></a></td>
+        <td th:text="*{imdbRating}"></td>
+        <td th:text="*{metaRating}"></td>
+        <td th:text="*{rottenRating}"></td>
+        <td th:text="*{tmdbRating}"></td>
+        <td th:text="*{average}"></td>
+        <td th:text="*{filmId}"></td>
+    </tr>
+</table>
+<p th:text="${film.plot}"></p>
+<img th:src="@{${film.poster}}"/>
+</body>
+</html>

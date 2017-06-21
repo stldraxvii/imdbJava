@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://wwww.thymeleaf.org">
+<head th:replace="fragments :: head">
+</head>
+
+
+<body class="container">
+<h1 th:text="${title}"></h1>
+<div th:replace="fragments :: page-header"></div>
+<table class="table" th:object="${filmForm}">
+    <tr>
+        <td>Title</td>
+        <td>Year</td>
+        <td>IMDB Rating</td>
+        <td>Meta Rating</td>
+        <td>RT Rating</td>
+        <td>Link</td>
+    </tr>
+    <tr>
+        <td th:text="*{title}"></td>
+        <td th:text="*{year}"></td>
+        <td th:text="*{imdbRating}"></td>
+        <td th:text="*{metaRating}"></td>
+        <td th:text="*{rottenRating}"></td>
+        <td><a th:href="@{http://m.imdb.com/title/}+*{imdbId}">IMDB</a></td>
+    </tr>
+</table>
+
+<form method="post" action="/step2" th:object="${filmForm}">
+    <input type="hidden" class="form-control" th:field="*{title}"/>
+    <input type="hidden" class="form-control" th:field="*{year}"/>
+    <input type="hidden" class="form-control" th:field="*{plot}"/>
+    <input type="hidden" class="form-control" th:field="*{poster}"/>
+    <input type="hidden" class="form-control" th:field="*{imdbRating}"/>
+    <input type="hidden" class="form-control" th:field="*{metaRating}"/>
+    <input type="hidden" class="form-control" th:field="*{rottenRating}"/>
+    <input type="hidden" class="form-control" th:field="*{imdbId}"/>
+    <input type="submit" value="Correct"/>
+</form>
+
+
+</body>
+</html>

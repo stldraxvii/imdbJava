@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://wwww.thymeleaf.org">
+<head th:replace="fragments :: head">
+</head>
+
+
+<body class="container">
+    <h1 th:text="${title}"></h1>
+    <div th:replace="fragments :: page-header"></div>
+    <p th:unless="${films} and ${films.size()}">no films :(</p>
+
+    <table class="table">
+        <tr>
+            <th>Year</th>
+            <th>Name</th>
+            <th>IMDB Rating</th>
+            <th>Meta Rating</th>
+            <th>Rotten Rating</th>
+            <th>TMDB Rating</th>
+            <th>Average</th>
+            <th>KOFD ID</th>
+        </tr>
+        <tr th:each="film : ${films}">
+            <td th:text="${film.year}"></td>
+            <td><a th:text="${film.name}" th:href="@{'/film/'+${film.filmId}}">Link</a></td>
+            <td th:text="${film.imdbRating}"></td>
+            <td th:text="${film.metaRating}"></td>
+            <td th:text="${film.rottenRating}"></td>
+            <td th:text="${film.tmdbRating}"></td>
+            <td th:text="${film.average}"></td>
+            <td th:text="${film.filmId}"></td>
+        </tr>
+    </table>
+</body>
+</html>
