@@ -20,10 +20,10 @@ public class FilmForm {
     public String poster;
 
     @NotNull
-    public RatingImdb imdbRating;
+    public String imdbRatingString;
 
-    public RatingMeta metaRating;
-    public RatingRotten rottenRating;
+    public String metaRatingString;
+    public String rottenRatingString;
 
     @NotNull
     public String imdbId;
@@ -40,28 +40,28 @@ public class FilmForm {
     public String getPoster() {return poster;}
     public void setPoster(String poster) {this.poster = poster;}
 
-    public RatingImdb getImdbRating() {return imdbRating;}
-    public void setImdbRating(RatingImdb imdbRating) {this.imdbRating = imdbRating;}
+    public String getImdbRatingString() {return imdbRatingString;}
+    public void setImdbRatingString(String imdbRatingString) {this.imdbRatingString = imdbRatingString;}
 
-    public RatingMeta getMetaRating() {return metaRating;}
-    public void setMetaRating(RatingMeta metaRating) {this.metaRating = metaRating;}
+    public String getMetaRatingString() {return metaRatingString;}
+    public void setMetaRatingString(String metaRatingString) {this.metaRatingString = metaRatingString;}
 
-    public RatingRotten getRottenRating() {return rottenRating;}
-    public void setRottenRating(RatingRotten rottenRating) {this.rottenRating = rottenRating;}
+    public String getRottenRatingString() {return rottenRatingString;}
+    public void setRottenRatingString(String rottenRatingString) {this.rottenRatingString = rottenRatingString;}
 
     public String getImdbId() {return imdbId;}
     public void setImdbId(String imdbId) {this.imdbId = imdbId;}
 
     public FilmForm (String title, String year, String plot, String poster,
-                     RatingImdb imdbRating, RatingMeta metaRating, RatingRotten rottenRating, String imdbId) {
+                     String imdbRatingString, String metaRatingString, String rottenRatingString, String imdbId) {
         this();
         this.title = title;
         this.year = year;
         this.plot = plot;
         this.poster = poster;
-        this.imdbRating = imdbRating;
-        this.metaRating = metaRating;
-        this.rottenRating = rottenRating;
+        this.imdbRatingString = imdbRatingString;
+        this.metaRatingString = metaRatingString;
+        this.rottenRatingString = rottenRatingString;
         this.imdbId = imdbId;
     }
 

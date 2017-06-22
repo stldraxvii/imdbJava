@@ -19,9 +19,9 @@
     <tr>
         <td th:text="*{title}"></td>
         <td th:text="*{year}"></td>
-        <td th:text="*{imdbRating}"></td>
-        <td th:text="*{metaRating}"></td>
-        <td th:text="*{rottenRating}"></td>
+        <td th:text="*{imdbRatingString}"></td>
+        <td th:text="*{metaRatingString}"></td>
+        <td th:text="*{rottenRatingString}"></td>
         <td><a th:href="@{http://m.imdb.com/title/}+*{imdbId}">IMDB</a></td>
     </tr>
 </table>
@@ -31,9 +31,9 @@
     <input type="hidden" class="form-control" th:field="*{year}"/>
     <input type="hidden" class="form-control" th:field="*{plot}"/>
     <input type="hidden" class="form-control" th:field="*{poster}"/>
-    <input type="hidden" class="form-control" th:field="*{imdbRating}"/>
-    <input type="hidden" class="form-control" th:field="*{metaRating}"/>
-    <input type="hidden" class="form-control" th:field="*{rottenRating}"/>
+    <input type="hidden" class="form-control" th:field="*{imdbRatingString}"/>
+    <input type="hidden" class="form-control" th:field="*{metaRatingString}"/>
+    <input type="hidden" class="form-control" th:field="*{rottenRatingString}"/>
     <input type="hidden" class="form-control" th:field="*{imdbId}"/>
     <input type="submit" value="Correct"/>
 </form>

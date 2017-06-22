@@ -22,10 +22,10 @@
     <tr>
         <td th:text="*{year}"></td>
         <td><a th:text="*{name}" th:href="@{'http://m.imdb.com/title/'+*{imdbId}}"></a></td>
-        <td th:text="*{imdbRating}"></td>
-        <td th:text="*{metaRating}"></td>
-        <td th:text="*{rottenRating}"></td>
-        <td th:text="*{tmdbRating}"></td>
+        <td th:text="*{imdbRatingString}"></td>
+        <td th:text="*{metaRatingString}"></td>
+        <td th:text="*{rottenRatingString}"></td>
+        <td th:text="*{tmdbRatingString}"></td>
         <td th:text="*{average}"></td>
         <td th:text="*{filmId}"></td>
     </tr>

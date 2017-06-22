@@ -21,16 +21,20 @@ public class Film {
     private String poster;
 
     @NotNull
-    private RatingImdb imdbRating;
+    private String imdbRatingString;
+    private double imdbRating;
 
-    public RatingMeta metaRating;
-    private RatingRotten rottenRating;
+    public String metaRatingString;
+    private double metaRating;
+    private String rottenRatingString;
+    private double rottenRating;
 
     @NotNull
     private String imdbId;
 
     @NotNull
-    private RatingImdb tmdbRating;
+    private String tmdbRatingString;
+    private double tmdbRating;
 
     private double average;
     private int count;
@@ -39,18 +43,18 @@ public class Film {
     private int filmId;
     private static int nextId = 1;
 
-    public Film (String name, String year, String plot, String poster, RatingImdb imdbRating,
-                 RatingMeta metaRating, RatingRotten rottenRating, String imdbId, RatingImdb tmdbRating) {
+    public Film (String name, String year, String plot, String poster, String imdbRatingString,
+                 String metaRatingString, String rottenRatingString, String imdbId, String tmdbRatingString) {
         this();
         this.name = name;
         this.year = year;
         this.plot = plot;
         this.poster = poster;
-        this.imdbRating = imdbRating;
-        this.metaRating = metaRating;
-        this.rottenRating = rottenRating;
+        this.imdbRatingString = imdbRatingString;
+        this.metaRatingString = metaRatingString;
+        this.rottenRatingString = rottenRatingString;
         this.imdbId = imdbId;
-        this.tmdbRating = tmdbRating;
+        this.tmdbRatingString = tmdbRatingString;
     }
 
     public Film () {
@@ -70,40 +74,45 @@ public class Film {
     public String getPoster() {return poster;}
     public void setPoster(String poster) {this.poster = poster;}
 
-    public RatingImdb getImdbRating() {return imdbRating;}
-    public void setImdbRating(RatingImdb imdbRating) {this.imdbRating = imdbRating;}
+    public String getImdbRatingString() {return imdbRatingString;}
+    public void setImdbRatingString(String imdbRatingString) {this.imdbRatingString = imdbRatingString;}
 
-    public RatingMeta getMetaRating() {return metaRating;}
-    public void setMetaRating(RatingMeta metaRating) {this.metaRating = metaRating;}
+    public String getMetaRatingString() {return metaRatingString;}
+    public void setMetaRatingString(String metaRatingString) {this.metaRatingString = metaRatingString;}
 
-    public RatingRotten getRottenRating() {return rottenRating;}
-    public void setRottenRating(RatingRotten rottenRating) {this.rottenRating = rottenRating;}
+    public String getRottenRatingString() {return rottenRatingString;}
+    public void setRottenRatingString(String rottenRatingString) {this.rottenRatingString = rottenRatingString;}
 
     public String getImdbId() {return imdbId;}
     public void setImdbId(String imdbId) {this.imdbId = imdbId;}
 
-    public RatingImdb getTmdbRating() {return tmdbRating;}
-    public void setTmdbRating(RatingImdb tmdbRating) {this.tmdbRating = tmdbRating;}
+    public String getTmdbRatingString() {return tmdbRatingString;}
+    public void setTmdbRatingString(String tmdbRatingString) {this.tmdbRatingString = tmdbRatingString;}
 
     public int getFilmId() {return filmId;}
     public void setFilmId(int filmId) {this.filmId = filmId;}
 
     public double getAverage() {return average;}
     public void setAverage() {
-        count = 2;
+        count = 1;
         total = 0;
-        this.total += imdbRating.mathRating + tmdbRating.mathRating;
+        this.total += imdbRating;
 
-        if (!this.metaRating.rating.equals("N/A")) {
-            this.total += metaRating.mathRating;
+        if (!this.metaRatingString.equals("N/A")) {
+            this.total += metaRating;
             this.count += 1;
         }
 
-        if (!this.rottenRating.rating.equals("N/A")) {
-            this.total += rottenRating.mathRating;
+        if (!this.rottenRatingString.equals("N/A")) {
+            this.total += rottenRating;
             this.count += 1;
         }
-        average = round((total/count),2);
+
+        if (!this.tmdbRatingString.equals("N/A")) {
+            this.total += tmdbRating;
+            this.count += 1;
+        }
+        average = round((total/count),3);
     }
 
     public static double round(double value, int places) {
@@ -112,6 +121,23 @@ public class Film {
         BigDecimal bd = new BigDecimal(value);
         bd = bd.setScale(places, RoundingMode.HALF_UP);
         return bd.doubleValue();
+    }
+
+    public void setRatings () {
+        this.imdbRating = Double.parseDouble(imdbRatingString);
+
+        if (!this.metaRatingString.equals("N/A")) {
+            this.metaRating = Double.parseDouble(metaRatingString)/10;
+        }
+
+        if (!this.rottenRatingString.equals("N/A")) {
+            this.rottenRating = Double.parseDouble(rottenRatingString)/10;
+        }
+
+        if (this.tmdbRatingString.equals("0.0")) {
+            this.tmdbRatingString = "N/A";
+        }
+        else {this.tmdbRating=Double.parseDouble(tmdbRatingString);}
     }
 
 

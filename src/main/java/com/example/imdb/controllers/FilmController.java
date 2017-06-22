@@ -46,21 +46,25 @@ public class FilmController {
             String plot = obj.getString("Plot");
             String poster = obj.getString("Poster");
 
-            RatingImdb imdbRating = new RatingImdb(obj.getString("imdbRating"));
-            RatingMeta metaRating = null;
-            RatingRotten rottenRating = null;
+            String imdbRatingString = obj.getString("imdbRating");
+            String metaRatingString = null;
+            String rottenRatingString = null;
 
             JsonArray ratings = obj.getJsonArray("Ratings");
             for (JsonValue rating : ratings) {
                 String test = rating.toString();
-                if (test.contains("Metacritic")) {metaRating = new RatingMeta(test);}
-                if (test.contains("Rotten")) {rottenRating = new RatingRotten(test);}
+                if (test.contains("Metacritic")) {
+                    metaRatingString = test.replace("\"","").replace("{Source:Metacritic,Value:","").replace("/100}","");
+                }
+                if (test.contains("Rotten")) {
+                    rottenRatingString = test.replace("\"","").replace("{Source:Rotten Tomatoes,Value:","").replace("%}","");
+                }
             }
 
-            if (metaRating == null) {metaRating = new RatingMeta("N/A");}
-            if (rottenRating == null) {rottenRating = new RatingRotten("N/A");}
+            if (metaRatingString == null) {metaRatingString = "N/A";}
+            if (rottenRatingString == null) {rottenRatingString = "N/A";}
 
-            FilmForm filmForm = new FilmForm(title,year,plot,poster,imdbRating,metaRating,rottenRating,imdbId);
+            FilmForm filmForm = new FilmForm(title,year,plot,poster,imdbRatingString,metaRatingString,rottenRatingString,imdbId);
             model.addAttribute("filmForm", filmForm);
             return ("step2");
         }
@@ -85,11 +89,12 @@ public class FilmController {
 
             JsonObject obj = rdr.readObject();
             JsonObject results = obj.getJsonArray("movie_results").getJsonObject(0);
-            RatingImdb tmdbRating = new RatingImdb(results.getJsonNumber("vote_average").toString());
+            String tmdbRating = results.getJsonNumber("vote_average").toString();
 
             Film newFilm = new Film(filmForm.getTitle(), filmForm.getYear(), filmForm.getPlot(), filmForm.getPoster(),
-                    filmForm.getImdbRating(), filmForm.getMetaRating(), filmForm.getRottenRating(), filmForm.getImdbId(),
+                    filmForm.getImdbRatingString(), filmForm.getMetaRatingString(), filmForm.getRottenRatingString(), filmForm.getImdbId(),
                     tmdbRating);
+            newFilm.setRatings();
             newFilm.setAverage();
             FilmData.add(newFilm);
             return "redirect:film/"+newFilm.getFilmId();

@@ -23,10 +23,10 @@
         <tr th:each="film : ${films}">
             <td th:text="${film.year}"></td>
             <td><a th:text="${film.name}" th:href="@{'/film/'+${film.filmId}}">Link</a></td>
-            <td th:text="${film.imdbRating}"></td>
-            <td th:text="${film.metaRating}"></td>
-            <td th:text="${film.rottenRating}"></td>
-            <td th:text="${film.tmdbRating}"></td>
+            <td th:text="${film.imdbRatingString}"></td>
+            <td th:text="${film.metaRatingString}"></td>
+            <td th:text="${film.rottenRatingString}"></td>
+            <td th:text="${film.tmdbRatingString}"></td>
             <td th:text="${film.average}"></td>
             <td th:text="${film.filmId}"></td>
         </tr>
