@@ -1,15 +1,25 @@
 package com.example.imdb.models;
 
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 
 
 /**
  * Created by Matt on 6/17/2017.
  */
+
+@Entity
 public class Film {
+    @Id
+    @GeneratedValue
+    private int id;
 
     @NotNull
     private String name;
@@ -19,6 +29,15 @@ public class Film {
 
     private String plot;
     private String poster;
+
+    @ManyToMany
+    private List<Country> countries;
+    @ManyToMany
+    private List<Director> directors;
+    @ManyToMany
+    private List<Actor> actors;
+    @ManyToMany
+    private List<Genre> genres;
 
     @NotNull
     private String imdbRatingString;
@@ -40,16 +59,18 @@ public class Film {
     private int count;
     private double total;
 
-    private int filmId;
-    private static int nextId = 1;
-
-    public Film (String name, String year, String plot, String poster, String imdbRatingString,
-                 String metaRatingString, String rottenRatingString, String imdbId, String tmdbRatingString) {
+    public Film (String name, String year, String plot, String poster, List<Country> countries, List<Director> directors,
+                 List<Actor> actors, List<Genre> genres, String imdbRatingString, String metaRatingString, String rottenRatingString,
+                 String imdbId, String tmdbRatingString) {
         this();
         this.name = name;
         this.year = year;
         this.plot = plot;
         this.poster = poster;
+        this.countries = countries;
+        this.directors = directors;
+        this.actors = actors;
+        this.genres = genres;
         this.imdbRatingString = imdbRatingString;
         this.metaRatingString = metaRatingString;
         this.rottenRatingString = rottenRatingString;
@@ -57,10 +78,9 @@ public class Film {
         this.tmdbRatingString = tmdbRatingString;
     }
 
-    public Film () {
-        filmId = nextId;
-        nextId++;
-    }
+    public Film () { }
+
+    public int getId() {return id;}
 
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
@@ -73,6 +93,11 @@ public class Film {
 
     public String getPoster() {return poster;}
     public void setPoster(String poster) {this.poster = poster;}
+
+    public List<Country> getCountries() {return countries;}
+    public List<Director> getDirectors() {return directors;}
+    public List<Actor> getActors() {return actors;}
+    public List<Genre> getGenres() {return genres;}
 
     public String getImdbRatingString() {return imdbRatingString;}
     public void setImdbRatingString(String imdbRatingString) {this.imdbRatingString = imdbRatingString;}
@@ -89,8 +114,10 @@ public class Film {
     public String getTmdbRatingString() {return tmdbRatingString;}
     public void setTmdbRatingString(String tmdbRatingString) {this.tmdbRatingString = tmdbRatingString;}
 
-    public int getFilmId() {return filmId;}
-    public void setFilmId(int filmId) {this.filmId = filmId;}
+    public double getImdbRating() {return imdbRating;}
+    public double getMetaRating() {return metaRating;}
+    public double getRottenRating() {return rottenRating;}
+    public double getTmdbRating() {return tmdbRating;}
 
     public double getAverage() {return average;}
     public void setAverage() {

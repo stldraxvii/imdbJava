@@ -1,12 +1,11 @@
 package com.example.imdb.controllers;
 
-import com.example.imdb.models.Film;
-import com.example.imdb.models.FilmData;
+import com.example.imdb.models.data.FilmDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
 
 
 /**
@@ -14,11 +13,12 @@ import java.util.ArrayList;
  */
 @Controller
 public class MainController {
-    ArrayList<Film> films = FilmData.getAll();
+    @Autowired
+    private FilmDao filmDao;
 
     @RequestMapping(value = "")
     public String index(Model model) {
-        model.addAttribute("films", films);
+        model.addAttribute("films", filmDao.findAll());
         model.addAttribute("title", "Kemper Online Film Database");
         return "index";
     }

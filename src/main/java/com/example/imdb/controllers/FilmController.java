@@ -1,6 +1,8 @@
 package com.example.imdb.controllers;
 
 import com.example.imdb.models.*;
+import com.example.imdb.models.data.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -14,12 +16,23 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Created by Matt on 6/17/2017.
  */
 @Controller
 public class FilmController {
+    @Autowired
+    private FilmDao filmDao;
+    @Autowired
+    private CountryDao countryDao;
+    @Autowired
+    private DirectorDao directorDao;
+    @Autowired
+    private ActorDao actorDao;
+    @Autowired
+    private GenreDao genreDao;
 
     @RequestMapping(value="add", method = RequestMethod.GET)
     public String displayAddFilmForm (Model model) {
@@ -35,14 +48,29 @@ public class FilmController {
             return "add";
         }
         String searchTitle = addForm.getName().replace(" ","+");
+
         URL url = new URL("http://www.omdbapi.com/?t="+ searchTitle +"&plot=full&apikey=350f8c5c");
         try (InputStream is = url.openStream();
              JsonReader rdr = Json.createReader(is)) {
+             JsonObject obj = rdr.readObject();
 
-            JsonObject obj = rdr.readObject();;
+            if (obj.getString("Response").equals("False")) {
+                model.addAttribute("title", "Add a movie");
+                model.addAttribute("badName", "Sorry, but there were no results for that title.");
+                return "add";
+            }
+
+            String imdbId = obj.getString("imdbID");
+            for(Film film : filmDao.findAll()) {
+                if (film.getImdbId().equals(imdbId)) {
+                    model.addAttribute("title", "Add a movie");
+                    model.addAttribute("duplicate", "You can find it here!");
+                    model.addAttribute("id", film.getId());
+                    return "add";
+                }
+            }
             String title = obj.getString("Title");
             String year = obj.getString("Year");
-            String imdbId = obj.getString("imdbID");
             String plot = obj.getString("Plot");
             String poster = obj.getString("Poster");
 
@@ -64,7 +92,128 @@ public class FilmController {
             if (metaRatingString == null) {metaRatingString = "N/A";}
             if (rottenRatingString == null) {rottenRatingString = "N/A";}
 
-            FilmForm filmForm = new FilmForm(title,year,plot,poster,imdbRatingString,metaRatingString,rottenRatingString,imdbId);
+            //Country
+            ArrayList<Integer> countriesToAdd = new ArrayList<>();
+            String countryStrings = obj.getString("Country");
+            String countryStringsArray[] = countryStrings.replace(", ",":").split(":");
+
+            for (String countryString : countryStringsArray) {
+                ArrayList<Country> existingCountries = (ArrayList<Country>) countryDao.findAll();
+                int size = existingCountries.size();
+                int addSize = countriesToAdd.size();
+                if (size == 0) {
+                    Country newCountry = new Country(countryString);
+                    countryDao.save(newCountry);
+                    countriesToAdd.add(newCountry.id);
+                }
+                if(size !=0) {
+                    for (Country country : existingCountries) {
+                        if (country.equals(countryString)) {
+                            countriesToAdd.add(country.id);
+                            break;
+                        }
+                    }
+                    ArrayList<Country> existingCountriesCheck = (ArrayList<Country>) countryDao.findAll();
+                    if (size == existingCountriesCheck.size() && addSize==countriesToAdd.size()) {
+                        Country newCountry = new Country(countryString);
+                        countryDao.save(newCountry);
+                        countriesToAdd.add(newCountry.id);
+                    }
+                }
+            }
+
+            //Director
+            ArrayList<Integer> directorsToAdd = new ArrayList<>();
+            String directorStrings = obj.getString("Director");
+            String directorStringsArray[] = directorStrings.replace(", ",":").split(":");
+
+            for (String directorString : directorStringsArray) {
+                ArrayList<Director> existingDirectors = (ArrayList<Director>) directorDao.findAll();
+                int size = existingDirectors.size();
+                int addSize = directorsToAdd.size();
+                if (size==0) {
+                    Director newDirector = new Director(directorString);
+                    directorDao.save(newDirector);
+                    directorsToAdd.add(newDirector.id);
+                }
+                if (size != 0) {
+                    for (Director director : existingDirectors) {
+                        if (director.equals(directorString)) {
+                            directorsToAdd.add(director.id);
+                            break;
+                        }
+                    }
+                    ArrayList<Director> existingDirectorsCheck = (ArrayList<Director>) directorDao.findAll();
+                    if (size == existingDirectorsCheck.size() && addSize == directorsToAdd.size()) {
+                        Director newDirector =  new Director(directorString);
+                        directorDao.save(newDirector);
+                        directorsToAdd.add(newDirector.id);
+                    }
+                }
+            }
+
+            //Actor
+            ArrayList<Integer> actorsToAdd = new ArrayList<>();
+            String actorStrings = obj.getString("Actors");
+            String actorStringsArray[] = actorStrings.replace(", ",":").split(":");
+
+            for (String actorString : actorStringsArray) {
+                ArrayList<Actor> existingActors = (ArrayList<Actor>) actorDao.findAll();
+                int size = existingActors.size();
+                int addSize = actorsToAdd.size();
+                if (size == 0) {
+                    Actor newActor = new Actor(actorString);
+                    actorDao.save(newActor);
+                    actorsToAdd.add(newActor.id);
+                }
+                if (size!=0) {
+                    for (Actor actor : existingActors) {
+                        if (actor.equals(actorString)) {
+                            actorsToAdd.add(actor.id);
+                            break;
+                        }
+                    }
+                    ArrayList<Actor> existingActorsCheck = (ArrayList<Actor>) actorDao.findAll();
+                    if (size == existingActorsCheck.size() && addSize == actorsToAdd.size()) {
+                        Actor newActor = new Actor(actorString);
+                        actorDao.save(newActor);
+                        actorsToAdd.add(newActor.id);
+                    }
+                }
+            }
+
+            //Genre
+            ArrayList<Integer> genresToAdd = new ArrayList<>();
+            String genreStrings = obj.getString("Genre");
+            String genreStringsArray[] = genreStrings.replace(", ", ":").split(":");
+
+            for (String genreString : genreStringsArray) {
+                ArrayList<Genre> existingGenres = (ArrayList<Genre>) genreDao.findAll();
+                int size = existingGenres.size();
+                int addSize = genresToAdd.size();
+                if (size == 0) {
+                    Genre newGenre = new Genre(genreString);
+                    genreDao.save(newGenre);
+                    genresToAdd.add(newGenre.id);
+                }
+                if (size!=0) {
+                    for (Genre genre : existingGenres) {
+                        if (genre.equals(genreString)) {
+                            genresToAdd.add(genre.id);
+                            break;
+                        }
+                    }
+                    ArrayList<Genre> existingGenresCheck = (ArrayList<Genre>) genreDao.findAll();
+                    if (size == existingGenresCheck.size() && addSize == genresToAdd.size()) {
+                        Genre newGenre = new Genre(genreString);
+                        genreDao.save(newGenre);
+                        genresToAdd.add(newGenre.id);
+                    }
+                }
+            }
+
+            FilmForm filmForm = new FilmForm(title,year,plot,poster,countriesToAdd,directorsToAdd,actorsToAdd,
+                    genresToAdd,imdbRatingString,metaRatingString,rottenRatingString,imdbId);
             model.addAttribute("filmForm", filmForm);
             return ("step2");
         }
@@ -91,19 +240,70 @@ public class FilmController {
             JsonObject results = obj.getJsonArray("movie_results").getJsonObject(0);
             String tmdbRating = results.getJsonNumber("vote_average").toString();
 
+            //Country
+            ArrayList<Country> countriesToAdd = new ArrayList<>();
+            for (int countryId : filmForm.getCountriesToAdd()) {
+                countriesToAdd.add(countryDao.findOne(countryId));
+            }
+            //Director
+            ArrayList<Director> directorsToAdd = new ArrayList<>();
+            for (int directorId : filmForm.getDirectorsToAdd()) {
+                directorsToAdd.add(directorDao.findOne(directorId));
+            }
+            //Actor
+            ArrayList<Actor> actorsToAdd = new ArrayList<>();
+            for (int actorId : filmForm.getActorsToAdd()) {
+                actorsToAdd.add(actorDao.findOne(actorId));
+            }
+            //Genre
+            ArrayList<Genre> genresToAdd = new ArrayList<>();
+            for (int genreId : filmForm.getGenresToAdd()) {
+                genresToAdd.add(genreDao.findOne(genreId));
+            }
+
             Film newFilm = new Film(filmForm.getTitle(), filmForm.getYear(), filmForm.getPlot(), filmForm.getPoster(),
-                    filmForm.getImdbRatingString(), filmForm.getMetaRatingString(), filmForm.getRottenRatingString(), filmForm.getImdbId(),
-                    tmdbRating);
+                    countriesToAdd, directorsToAdd, actorsToAdd, genresToAdd, filmForm.getImdbRatingString(),
+                    filmForm.getMetaRatingString(), filmForm.getRottenRatingString(), filmForm.getImdbId(), tmdbRating);
             newFilm.setRatings();
             newFilm.setAverage();
-            FilmData.add(newFilm);
-            return "redirect:film/"+newFilm.getFilmId();
+            filmDao.save(newFilm);
+
+            for (Country country : newFilm.getCountries()) {
+                country.addFilm(newFilm);
+                countryDao.save(country);
+            }
+            for (Director director : newFilm.getDirectors()) {
+                director.addFilm(newFilm);
+                directorDao.save(director);
+            }
+            for (Actor actor : newFilm.getActors()) {
+                actor.addFilm(newFilm);
+                actorDao.save(actor);
+            }
+            for (Genre genre : newFilm.getGenres()) {
+                genre.addFilm(newFilm);
+                genreDao.save(genre);
+            }
+            return "redirect:film/"+newFilm.getId();
         }
+    }
+
+    @RequestMapping(value = "remove", method = RequestMethod.GET)
+    public String remove (Model model) {
+        model.addAttribute("films", filmDao.findAll());
+        model.addAttribute("title", "Remove Film");
+        return "remove";
+    }
+
+    @RequestMapping(value = "remove", method = RequestMethod.POST)
+    public String remove (@RequestParam int[] filmIds) {
+        for (int filmId : filmIds) {filmDao.delete(filmId);}
+        return "redirect:";
     }
 
     @RequestMapping(value="film/{filmId}", method= RequestMethod.GET)
     public String displayFilm (Model model, @PathVariable int filmId) {
-        model.addAttribute("film", FilmData.getById(filmId));
+        model.addAttribute("film", filmDao.findOne(filmId));
         return "film";
     }
 }

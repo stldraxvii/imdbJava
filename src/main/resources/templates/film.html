@@ -12,24 +12,33 @@
     <tr>
         <th>Year</th>
         <th>Name</th>
+        <th>Director</th>
         <th>IMDB Rating</th>
         <th>Meta Rating</th>
         <th>Rotten Rating</th>
         <th>TMDB Rating</th>
         <th>Average</th>
+        <th>Countries</th>
+        <th>Actors</th>
+        <th>Genres</th>
         <th>KOFD ID</th>
     </tr>
     <tr>
         <td th:text="*{year}"></td>
         <td><a th:text="*{name}" th:href="@{'http://m.imdb.com/title/'+*{imdbId}}"></a></td>
+        <td><a th:each="director : ${film.directors}" th:href="@{'/director/view/'+${director.id}}" th:text="${director.name}+' '"></a></td>
         <td th:text="*{imdbRatingString}"></td>
         <td th:text="*{metaRatingString}"></td>
         <td th:text="*{rottenRatingString}"></td>
         <td th:text="*{tmdbRatingString}"></td>
         <td th:text="*{average}"></td>
-        <td th:text="*{filmId}"></td>
+        <td><a th:each="country : *{countries}" th:href="@{'/country/view/'+${country.id}}" th:text="${country.name}+' '"></a></td>
+        <td><a th:each="actor : *{actors}" th:href="@{'/actor/view/'+${actor.id}}" th:text="${actor.name} + ' '"></a></td>
+        <td><a th:each="genre : *{genres}" th:href="@{'/genre/view/'+${genre.id}}" th:text="${genre.name} + ' '"></a></td>
+        <td th:text="*{id}"></td>
     </tr>
 </table>
+
 <p th:text="${film.plot}"></p>
 <img th:src="@{${film.poster}}"/>
 </body>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://wwww.thymeleaf.org">
+<head th:replace="fragments :: head">
+</head>
+
+
+<body class="container">
+<h1 th:text="${title}"></h1>
+<div th:replace="fragments :: page-header"></div>
+<p th:unless="${films} and ${films.size()}">no films :(</p>
+
+<form method="post">
+    <div th:each="film : ${films}" class="checkbox">
+        <input type="checkbox" name="filmIds" th:value="${film.id}" th:id="${film.id}"/>
+        <label th:for="${film.id}" th:text="${film.name}"></label>
+    </div>
+
+    <input type="submit" value="Remove Film"/>
+</form>
+</body>
+</html>
