@@ -70,6 +70,8 @@ public class FilmForm {
     public String getImdbId() {return imdbId;}
     public void setImdbId(String imdbId) {this.imdbId = imdbId;}
 
+    public FilmForm () { }
+
     public FilmForm (String title, String year, String plot, String poster, List<Integer> countriesToAdd,
                      List<Integer> directorsToAdd, List<Integer> actorsToAdd, List<Integer> genresToAdd,
                      String imdbRatingString, String metaRatingString, String rottenRatingString, String imdbId) {
@@ -88,7 +90,4 @@ public class FilmForm {
         this.imdbId = imdbId;
     }
 
-    public FilmForm () {
-
-    }
 }

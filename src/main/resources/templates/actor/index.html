@@ -5,7 +5,7 @@
 
 
 <body class="container">
-<h1 th:text="${title}"></h1>
+<h1 th:text="${title}+' (Total = '+${actors.size()+')'}"></h1>
 <div th:replace="fragments :: page-header"></div>
 <p th:unless="${actors} and ${actors.size()}">no actors :(</p>
 

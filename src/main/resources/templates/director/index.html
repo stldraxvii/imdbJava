@@ -5,7 +5,7 @@
 
 
 <body class="container">
-<h1 th:text="${title}"></h1>
+<h1 th:text="${title}+' (Total = '+${directors.size()+')'}"></h1>
 <div th:replace="fragments :: page-header"></div>
 <p th:unless="${directors} and ${directors.size()}">no directors :(</p>
 
