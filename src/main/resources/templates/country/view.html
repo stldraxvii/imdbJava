@@ -5,7 +5,7 @@
 
 
 <body class="container">
-<h1 th:text="${title}"></h1>
+<h1 th:text="${title}+'(Number of films = '+${films.size()}+')'"></h1>
 <div th:replace="fragments :: page-header"></div>
 
 <table class="table">
@@ -13,7 +13,7 @@
         <th>Title</th>
         <th>Rating</th>
     </tr>
-    <tr th:each="film : ${country.films}" >
+    <tr th:each="film : ${films}" >
         <td><a th:href="@{'/film/'+${film.id}}" th:text="${film.name}"></a></td>
         <td th:text="${film.average}"></td>
     </tr>

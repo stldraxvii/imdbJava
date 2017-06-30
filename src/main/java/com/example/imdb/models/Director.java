@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,8 +40,15 @@ public class Director {
     public void setName(String name) {this.name = name;}
 
     public List<Film> getFilms() {return films;}
-
-    public void addFilm(Film item) {films.add(item);}
+    public void addFilm(Film item) {
+        if (this.films == null) {
+            this.films = new ArrayList<>();
+            films.add(item);
+        }
+        else {
+            films.add(item);
+        }
+    }
 
     public boolean equals(String name) {
         boolean retVal;

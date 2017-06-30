@@ -2,7 +2,6 @@ package com.example.imdb.models;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
 
 /**
  * Created by Matt on 6/17/2017.
@@ -20,10 +19,10 @@ public class FilmForm {
 
     public String poster;
 
-    public List<Integer> countriesToAdd;
-    public List<Integer> directorsToAdd;
-    public List<Integer> actorsToAdd;
-    public List<Integer> genresToAdd;
+    public String countriesToAdd;
+    public String directorsToAdd;
+    public String actorsToAdd;
+    public String genresToAdd;
 
     @NotNull
     public String imdbRatingString;
@@ -46,17 +45,17 @@ public class FilmForm {
     public String getPoster() {return poster;}
     public void setPoster(String poster) {this.poster = poster;}
 
-    public List<Integer> getCountriesToAdd() {return countriesToAdd;}
-    public void setCountriesToAdd(List<Integer> countriesToAdd) {this.countriesToAdd = countriesToAdd;}
+    public String getCountriesToAdd() {return countriesToAdd;}
+    public void setCountriesToAdd(String countriesToAdd) {this.countriesToAdd = countriesToAdd;}
 
-    public List<Integer> getDirectorsToAdd() {return directorsToAdd;}
-    public void setDirectorsToAdd(List<Integer> directorsToAdd) {this.directorsToAdd = directorsToAdd;}
+    public String getDirectorsToAdd() {return directorsToAdd;}
+    public void setDirectorsToAdd(String directorsToAdd) {this.directorsToAdd = directorsToAdd;}
 
-    public List<Integer> getActorsToAdd() {return actorsToAdd;}
-    public void setActorsToAdd(List<Integer> actorsToAdd) {this.actorsToAdd = actorsToAdd;}
+    public String getActorsToAdd() {return actorsToAdd;}
+    public void setActorsToAdd(String actorsToAdd) {this.actorsToAdd = actorsToAdd;}
 
-    public List<Integer> getGenresToAdd() {return genresToAdd;}
-    public void setGenresToAdd(List<Integer> genresToAdd) {this.genresToAdd = genresToAdd;}
+    public String getGenresToAdd() {return genresToAdd;}
+    public void setGenresToAdd(String genresToAdd) {this.genresToAdd = genresToAdd;}
 
     public String getImdbRatingString() {return imdbRatingString;}
     public void setImdbRatingString(String imdbRatingString) {this.imdbRatingString = imdbRatingString;}
@@ -72,8 +71,8 @@ public class FilmForm {
 
     public FilmForm () { }
 
-    public FilmForm (String title, String year, String plot, String poster, List<Integer> countriesToAdd,
-                     List<Integer> directorsToAdd, List<Integer> actorsToAdd, List<Integer> genresToAdd,
+    public FilmForm (String title, String year, String plot, String poster, String countriesToAdd,
+                     String directorsToAdd, String actorsToAdd, String genresToAdd,
                      String imdbRatingString, String metaRatingString, String rottenRatingString, String imdbId) {
         this();
         this.title = title;

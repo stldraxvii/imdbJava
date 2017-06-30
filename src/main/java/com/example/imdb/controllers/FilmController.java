@@ -49,7 +49,7 @@ public class FilmController {
         }
         String searchTitle = addForm.getName().replace(" ","+");
 
-        URL url = new URL("http://www.omdbapi.com/?t="+ searchTitle +"&plot=full&apikey=350f8c5c");
+        URL url = new URL("http://www.omdbapi.com/?t="+ searchTitle +"&y="+addForm.getYear()+"&plot=full&apikey=350f8c5c");
         try (InputStream is = url.openStream();
              JsonReader rdr = Json.createReader(is)) {
              JsonObject obj = rdr.readObject();
@@ -78,6 +78,11 @@ public class FilmController {
             String metaRatingString = null;
             String rottenRatingString = null;
 
+            String countryStrings = obj.getString("Country");
+            String directorStrings = obj.getString("Director");
+            String actorStrings = obj.getString("Actors");
+            String genreStrings = obj.getString("Genre");
+
             JsonArray ratings = obj.getJsonArray("Ratings");
             for (JsonValue rating : ratings) {
                 String test = rating.toString();
@@ -92,128 +97,8 @@ public class FilmController {
             if (metaRatingString == null) {metaRatingString = "N/A";}
             if (rottenRatingString == null) {rottenRatingString = "N/A";}
 
-            //Country
-            ArrayList<Integer> countriesToAdd = new ArrayList<>();
-            String countryStrings = obj.getString("Country");
-            String countryStringsArray[] = countryStrings.replace(", ",":").split(":");
-
-            for (String countryString : countryStringsArray) {
-                ArrayList<Country> existingCountries = (ArrayList<Country>) countryDao.findAll();
-                int size = existingCountries.size();
-                int addSize = countriesToAdd.size();
-                if (size == 0) {
-                    Country newCountry = new Country(countryString);
-                    countryDao.save(newCountry);
-                    countriesToAdd.add(newCountry.id);
-                }
-                if(size !=0) {
-                    for (Country country : existingCountries) {
-                        if (country.equals(countryString)) {
-                            countriesToAdd.add(country.id);
-                            break;
-                        }
-                    }
-                    ArrayList<Country> existingCountriesCheck = (ArrayList<Country>) countryDao.findAll();
-                    if (size == existingCountriesCheck.size() && addSize==countriesToAdd.size()) {
-                        Country newCountry = new Country(countryString);
-                        countryDao.save(newCountry);
-                        countriesToAdd.add(newCountry.id);
-                    }
-                }
-            }
-
-            //Director
-            ArrayList<Integer> directorsToAdd = new ArrayList<>();
-            String directorStrings = obj.getString("Director");
-            String directorStringsArray[] = directorStrings.replace(", ",":").split(":");
-
-            for (String directorString : directorStringsArray) {
-                ArrayList<Director> existingDirectors = (ArrayList<Director>) directorDao.findAll();
-                int size = existingDirectors.size();
-                int addSize = directorsToAdd.size();
-                if (size==0) {
-                    Director newDirector = new Director(directorString);
-                    directorDao.save(newDirector);
-                    directorsToAdd.add(newDirector.id);
-                }
-                if (size != 0) {
-                    for (Director director : existingDirectors) {
-                        if (director.equals(directorString)) {
-                            directorsToAdd.add(director.id);
-                            break;
-                        }
-                    }
-                    ArrayList<Director> existingDirectorsCheck = (ArrayList<Director>) directorDao.findAll();
-                    if (size == existingDirectorsCheck.size() && addSize == directorsToAdd.size()) {
-                        Director newDirector =  new Director(directorString);
-                        directorDao.save(newDirector);
-                        directorsToAdd.add(newDirector.id);
-                    }
-                }
-            }
-
-            //Actor
-            ArrayList<Integer> actorsToAdd = new ArrayList<>();
-            String actorStrings = obj.getString("Actors");
-            String actorStringsArray[] = actorStrings.replace(", ",":").split(":");
-
-            for (String actorString : actorStringsArray) {
-                ArrayList<Actor> existingActors = (ArrayList<Actor>) actorDao.findAll();
-                int size = existingActors.size();
-                int addSize = actorsToAdd.size();
-                if (size == 0) {
-                    Actor newActor = new Actor(actorString);
-                    actorDao.save(newActor);
-                    actorsToAdd.add(newActor.id);
-                }
-                if (size!=0) {
-                    for (Actor actor : existingActors) {
-                        if (actor.equals(actorString)) {
-                            actorsToAdd.add(actor.id);
-                            break;
-                        }
-                    }
-                    ArrayList<Actor> existingActorsCheck = (ArrayList<Actor>) actorDao.findAll();
-                    if (size == existingActorsCheck.size() && addSize == actorsToAdd.size()) {
-                        Actor newActor = new Actor(actorString);
-                        actorDao.save(newActor);
-                        actorsToAdd.add(newActor.id);
-                    }
-                }
-            }
-
-            //Genre
-            ArrayList<Integer> genresToAdd = new ArrayList<>();
-            String genreStrings = obj.getString("Genre");
-            String genreStringsArray[] = genreStrings.replace(", ", ":").split(":");
-
-            for (String genreString : genreStringsArray) {
-                ArrayList<Genre> existingGenres = (ArrayList<Genre>) genreDao.findAll();
-                int size = existingGenres.size();
-                int addSize = genresToAdd.size();
-                if (size == 0) {
-                    Genre newGenre = new Genre(genreString);
-                    genreDao.save(newGenre);
-                    genresToAdd.add(newGenre.id);
-                }
-                if (size!=0) {
-                    for (Genre genre : existingGenres) {
-                        if (genre.equals(genreString)) {
-                            genresToAdd.add(genre.id);
-                            break;
-                        }
-                    }
-                    ArrayList<Genre> existingGenresCheck = (ArrayList<Genre>) genreDao.findAll();
-                    if (size == existingGenresCheck.size() && addSize == genresToAdd.size()) {
-                        Genre newGenre = new Genre(genreString);
-                        genreDao.save(newGenre);
-                        genresToAdd.add(newGenre.id);
-                    }
-                }
-            }
-
-            FilmForm filmForm = new FilmForm(title,year,plot,poster,countriesToAdd,directorsToAdd,actorsToAdd,
-                    genresToAdd,imdbRatingString,metaRatingString,rottenRatingString,imdbId);
+            FilmForm filmForm = new FilmForm(title,year,plot,poster,countryStrings,directorStrings,actorStrings,
+                    genreStrings,imdbRatingString,metaRatingString,rottenRatingString,imdbId);
             model.addAttribute("filmForm", filmForm);
             return ("step2");
         }
@@ -242,23 +127,118 @@ public class FilmController {
 
             //Country
             ArrayList<Country> countriesToAdd = new ArrayList<>();
-            for (int countryId : filmForm.getCountriesToAdd()) {
-                countriesToAdd.add(countryDao.findOne(countryId));
+            String countryStringsArray[] = filmForm.countriesToAdd.replace(", ",":").split(":");
+
+            for (String countryString : countryStringsArray) {
+                ArrayList<Country> existingCountries = (ArrayList<Country>) countryDao.findAll();
+                int size = existingCountries.size();
+                int addSize = countriesToAdd.size();
+                if (size == 0) {
+                    Country newCountry = new Country(countryString);
+                    countryDao.save(newCountry);
+                    countriesToAdd.add(newCountry);
+                }
+                if(size !=0) {
+                    for (Country country : existingCountries) {
+                        if (country.equals(countryString)) {
+                            countriesToAdd.add(country);
+                            break;
+                        }
+                    }
+                    ArrayList<Country> existingCountriesCheck = (ArrayList<Country>) countryDao.findAll();
+                    if (size == existingCountriesCheck.size() && addSize==countriesToAdd.size()) {
+                        Country newCountry = new Country(countryString);
+                        countryDao.save(newCountry);
+                        countriesToAdd.add(newCountry);
+                    }
+                }
             }
+
             //Director
             ArrayList<Director> directorsToAdd = new ArrayList<>();
-            for (int directorId : filmForm.getDirectorsToAdd()) {
-                directorsToAdd.add(directorDao.findOne(directorId));
+            String directorStringsArray[] = filmForm.directorsToAdd.replace(", ",":").split(":");
+
+            for (String directorString : directorStringsArray) {
+                ArrayList<Director> existingDirectors = (ArrayList<Director>) directorDao.findAll();
+                int size = existingDirectors.size();
+                int addSize = directorsToAdd.size();
+                if (size==0) {
+                    Director newDirector = new Director(directorString);
+                    directorDao.save(newDirector);
+                    directorsToAdd.add(newDirector);
+                }
+                if (size != 0) {
+                    for (Director director : existingDirectors) {
+                        if (director.equals(directorString)) {
+                            directorsToAdd.add(director);
+                            break;
+                        }
+                    }
+                    ArrayList<Director> existingDirectorsCheck = (ArrayList<Director>) directorDao.findAll();
+                    if (size == existingDirectorsCheck.size() && addSize == directorsToAdd.size()) {
+                        Director newDirector =  new Director(directorString);
+                        directorDao.save(newDirector);
+                        directorsToAdd.add(newDirector);
+                    }
+                }
             }
+
             //Actor
             ArrayList<Actor> actorsToAdd = new ArrayList<>();
-            for (int actorId : filmForm.getActorsToAdd()) {
-                actorsToAdd.add(actorDao.findOne(actorId));
+            String actorStringsArray[] = filmForm.actorsToAdd.replace(", ",":").split(":");
+
+            for (String actorString : actorStringsArray) {
+                ArrayList<Actor> existingActors = (ArrayList<Actor>) actorDao.findAll();
+                int size = existingActors.size();
+                int addSize = actorsToAdd.size();
+                if (size == 0) {
+                    Actor newActor = new Actor(actorString);
+                    actorDao.save(newActor);
+                    actorsToAdd.add(newActor);
+                }
+                if (size!=0) {
+                    for (Actor actor : existingActors) {
+                        if (actor.equals(actorString)) {
+                            actorsToAdd.add(actor);
+                            break;
+                        }
+                    }
+                    ArrayList<Actor> existingActorsCheck = (ArrayList<Actor>) actorDao.findAll();
+                    if (size == existingActorsCheck.size() && addSize == actorsToAdd.size()) {
+                        Actor newActor = new Actor(actorString);
+                        actorDao.save(newActor);
+                        actorsToAdd.add(newActor);
+                    }
+                }
             }
+
             //Genre
             ArrayList<Genre> genresToAdd = new ArrayList<>();
-            for (int genreId : filmForm.getGenresToAdd()) {
-                genresToAdd.add(genreDao.findOne(genreId));
+            String genreStringsArray[] = filmForm.genresToAdd.replace(", ", ":").split(":");
+
+            for (String genreString : genreStringsArray) {
+                ArrayList<Genre> existingGenres = (ArrayList<Genre>) genreDao.findAll();
+                int size = existingGenres.size();
+                int addSize = genresToAdd.size();
+                if (size == 0) {
+                    Genre newGenre = new Genre(genreString);
+                    genreDao.save(newGenre);
+                    genresToAdd.add(newGenre);
+                }
+                if (size!=0) {
+                    for (Genre genre : existingGenres) {
+                        if (genre.equals(genreString)) {
+                            genresToAdd.add(genre);
+                            break;
+                        }
+                    }
+                    ArrayList<Genre> existingGenresCheck = (ArrayList<Genre>) genreDao.findAll();
+                    if (size == existingGenresCheck.size() && addSize == genresToAdd.size()) {
+                        Genre newGenre = new Genre(genreString);
+                        genreDao.save(newGenre);
+                        genresToAdd.add(newGenre);
+                    }
+                }
             }
 
             Film newFilm = new Film(filmForm.getTitle(), filmForm.getYear(), filmForm.getPlot(), filmForm.getPoster(),

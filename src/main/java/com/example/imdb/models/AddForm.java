@@ -12,11 +12,13 @@ public class AddForm {
     @Size(min=1, message = "Name may not be empty")
     private String name;
 
+    private String year;
 
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
 
-    public AddForm() {
+    public String getYear() {return year;}
+    public void setYear(String year) {this.year = year;}
 
-    }
+    public AddForm() { }
 }

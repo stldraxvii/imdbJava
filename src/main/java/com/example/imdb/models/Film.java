@@ -156,15 +156,13 @@ public class Film {
         if (!this.metaRatingString.equals("N/A")) {
             this.metaRating = Double.parseDouble(metaRatingString)/10;
         }
-
         if (!this.rottenRatingString.equals("N/A")) {
             this.rottenRating = Double.parseDouble(rottenRatingString)/10;
         }
-
-        if (this.tmdbRatingString.equals("0.0")) {
-            this.tmdbRatingString = "N/A";
+        if (this.tmdbRatingString.equals("0.0")) {this.tmdbRatingString = "N/A";}
+        else {
+            this.tmdbRating=round(Double.parseDouble(tmdbRatingString),1);
         }
-        else {this.tmdbRating=Double.parseDouble(tmdbRatingString);}
     }
 
 
