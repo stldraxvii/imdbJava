@@ -26,7 +26,7 @@ public class ActorController {
 
     @RequestMapping(method= RequestMethod.GET)
     public String index (Model model) {
-        Iterable<Actor> actors = actorDao.findAll();
+        Iterable<Actor> actors = actorDao.findAllByOrderByNameAsc();
         model.addAttribute("title","Actors");
         model.addAttribute("actors",actors);
         return"actor/index";

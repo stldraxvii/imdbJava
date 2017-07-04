@@ -18,7 +18,7 @@ public class MainController {
 
     @RequestMapping(value = "")
     public String index(Model model) {
-        model.addAttribute("films", filmDao.findAllByOrderByAverageDesc());
+        model.addAttribute("films", filmDao.findTop50ByOrderByAverageDesc());
         model.addAttribute("title", "Kemper Online Film Database");
         return "index";
     }

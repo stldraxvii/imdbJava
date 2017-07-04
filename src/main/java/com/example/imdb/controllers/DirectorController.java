@@ -26,7 +26,7 @@ public class DirectorController {
 
     @RequestMapping(method= RequestMethod.GET)
     public String index (Model model) {
-        Iterable<Director> directors = directorDao.findAll();
+        Iterable<Director> directors = directorDao.findAllByOrderByNameAsc();
         model.addAttribute("title","Directors");
         model.addAttribute("directors", directors);
         return"director/index";

@@ -64,5 +64,9 @@ public class Country {
         retVal = this.name.equals(name);
         return retVal;
     }
+    @Override
+    public String toString() {
+        return this.name;
+    }
 
 }

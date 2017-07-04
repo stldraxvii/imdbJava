@@ -10,11 +10,48 @@
 
 <div class="container body-content">
 
-    <form method="post" value="search">
+    <form method="post" value="search" th:object="${searchForm}">
         <div class="form-group">
-            <input type="text" name="title" />
-            <input type="submit" value="Search for the Film" />
+            <label th:for="title">Title</label>
+            <input class="form-control" th:field="*{title}" />
+            <span th:errors="*{title}" class="error"></span>
         </div>
+        <div class="form-group">
+            <label th:for="year">Year</label>
+            <input class="form-control" th:field="*{year}" />
+            <span th:errors="*{year}" class="error"></span>
+        </div>
+        <div class="form-group">
+            <label th:for="director">Director</label>
+            <input class="form-control" th:field="*{director}" />
+            <span th:errors="*{director}" class="error"></span>
+        </div>
+        <div class="form-group">
+            <label th:for="actor">Actor</label>
+            <input class="form-control" th:field="*{actor}" />
+            <span th:errors="*{actor}" class="error"></span>
+        </div>
+        <div class="form-group">
+            <label th:for="genreId">Genre</label>
+            <select name="genreId">
+                <option th:text="-----" th:value="0"></option>
+                <option th:each="genre : ${genres}"
+                        th:text="${genre.name}"
+                        th:value="${genre.id}">
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label th:for="countryId">Country</label>
+            <select name="countryId">
+                <option th:text="-----" th:value="0"></option>
+                <option th:each="country : ${countries}"
+                        th:text="${country.name}"
+                        th:value="${country.id}">
+                </option>
+            </select>
+        </div>
+        <input type="submit" value="Search for the Film" />
     </form>
 </div>
 

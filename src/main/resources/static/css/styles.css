@@ -5,7 +5,32 @@
 }
 
 */
+table {
+    counter-reset: rowNumber;
+}
 
+table tr {
+
+}
+table tr th{
+    counter-reset: rowNumber;
+}
+select{
+    color:black;
+}
+option {
+    color:black;
+}
+input {
+    color:black;
+}
+
+table tr td:first-child::before {
+    content: counter(rowNumber);
+    min-width: 1em;
+    margin-right: 0.5em;
+    counter-increment: rowNumber;
+}
 
 body {
     background-color:black;

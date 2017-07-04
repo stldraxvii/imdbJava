@@ -2,6 +2,8 @@ package com.example.imdb.controllers;
 
 import com.example.imdb.models.*;
 import com.example.imdb.models.data.*;
+import com.example.imdb.models.forms.AddForm;
+import com.example.imdb.models.forms.FilmForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

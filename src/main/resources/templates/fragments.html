@@ -21,6 +21,7 @@
             <ul class="nav navbar-nav">
                 <li><a th:href="@{/add}">Add</a></li>
                 <li><a th:href="@{/remove}">Remove</a></li>
+                <li><a th:href="@{/search}">Search</a></li>
                 <li><a th:href="@{/director}">Directors</a></li>
                 <li><a th:href="@{/country}">Countries</a></li>
                 <li><a th:href="@{/actor}">Actors</a></li>
@@ -29,5 +30,22 @@
         </div>
     </div>
 </nav>
+
+<table class="table" th:fragment="film-table">
+    <tr>
+        <th>Name</th>
+        <th>Year</th>
+        <th>Countries</th>
+        <th>Director</th>
+        <th>Average</th>
+    </tr>
+    <tr th:each="film : ${films}">
+        <td><a th:text="${film.name}" th:href="@{'/film/'+${film.id}}">Link</a></td>
+        <td th:text="${film.year}"></td>
+        <td><a th:each="country : ${film.countries}" th:href="@{'/country/view/'+${country.id}}" th:text="${country.name+' '}"></a></td>
+        <td><a th:each="director : ${film.directors}" th:href="@{'/director/view/'+${director.id}}" th:text="${director.name+' '}"></a></td>
+        <td th:text="${film.average}"></td>
+    </tr>
+</table>
 </body>
 </html>

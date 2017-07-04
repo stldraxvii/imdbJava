@@ -9,31 +9,6 @@
     <div th:replace="fragments :: page-header"></div>
     <p th:unless="${films} and ${films.size()}">no films :(</p>
 
-    <table class="table">
-        <tr>
-            <th>Year</th>
-            <th>Name</th>
-            <th>Director</th>
-            <th>IMDB Rating</th>
-            <th>Meta Rating</th>
-            <th>Rotten Rating</th>
-            <th>TMDB Rating</th>
-            <th>Average</th>
-            <th>Countries</th>
-            <th>KOFD ID</th>
-        </tr>
-        <tr th:each="film : ${films}">
-            <td th:text="${film.year}"></td>
-            <td><a th:text="${film.name}" th:href="@{'/film/'+${film.id}}">Link</a></td>
-            <td><a th:each="director : ${film.directors}" th:href="@{'/director/view/'+${director.id}}" th:text="${director.name+' '}"></a></td>
-            <td th:text="${film.imdbRatingString}"></td>
-            <td th:text="${film.metaRatingString}"></td>
-            <td th:text="${film.rottenRatingString}"></td>
-            <td th:text="${film.tmdbRatingString}"></td>
-            <td th:text="${film.average}"></td>
-            <td><a th:each="country : ${film.countries}" th:href="@{'/country/view/'+${country.id}}" th:text="${country.name+' '}"></a></td>
-            <td th:text="${film.id}"></td>
-        </tr>
-    </table>
+   <table th:replace="fragments :: film-table"></table>
 </body>
 </html>

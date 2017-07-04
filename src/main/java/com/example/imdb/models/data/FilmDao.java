@@ -14,4 +14,5 @@ import java.util.List;
 @Transactional
 public interface FilmDao extends CrudRepository<Film, Integer>{
     public List<Film> findAllByOrderByAverageDesc();
+    public List<Film> findTop50ByOrderByAverageDesc();
 }
