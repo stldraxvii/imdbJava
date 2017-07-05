@@ -27,7 +27,7 @@ public class GenreController {
     @RequestMapping(method= RequestMethod.GET)
     public String index (Model model) {
         Iterable<Genre> genres  = genreDao.findAllByOrderByNameAsc();
-        model.addAttribute("title","Genres");
+        model.addAttribute("title","List of Genres");
         model.addAttribute("genres", genres);
         return"genre/index";
     }

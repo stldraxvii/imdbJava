@@ -28,7 +28,7 @@ public class CountryController {
     @RequestMapping(method= RequestMethod.GET)
     public String index (Model model) {
         Iterable<Country> countries = countryDao.findAllByOrderByNameAsc();
-        model.addAttribute("title", "Countries");
+        model.addAttribute("title", "List of Countries");
         model.addAttribute("countries", countries);
         return"country/index";
     }

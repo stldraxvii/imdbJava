@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://wwww.thymeleaf.org">
+<head th:replace="fragments :: head">
+</head>
+
+
+<body class="container">
+<h1 th:text="${title}"></h1>
+<div th:replace="fragments :: page-header"></div>
+
+
+<ul>Ordered by Best Average
+    <li>Top 100</li>
+    <li>Top 250</li>
+    <li>All</li>
+</ul>
+
+<ul>Ordered by Worst Average
+    <li>Top 100</li>
+    <li>Top 250</li>
+    <li>All</li>
+</ul>
+
+<ul>Ordered by Year
+    <li>Oldest</li>
+    <li>Newest</li>
+</ul>
+
+<ul>Ordered by Alpha
+    <li>All</li>
+</ul>
+
+</body>
+</html>

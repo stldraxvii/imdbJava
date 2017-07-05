@@ -11,6 +11,7 @@
     <tr>
         <td>Title</td>
         <td>Year</td>
+        <td>Director</td>
         <td>IMDB Rating</td>
         <td>Meta Rating</td>
         <td>RT Rating</td>
@@ -19,12 +20,15 @@
     <tr>
         <td th:text="*{title}"></td>
         <td th:text="*{year}"></td>
+        <td th:text="*{directorsToAdd}"></td>
         <td th:text="*{imdbRatingString}"></td>
         <td th:text="*{metaRatingString}"></td>
         <td th:text="*{rottenRatingString}"></td>
         <td><a th:href="@{http://m.imdb.com/title/}+*{imdbId}">IMDB</a></td>
     </tr>
 </table>
+<img th:src="@{${filmForm.poster}}"/>
+<p th:text="${filmForm.plot}"></p>
 
 <form method="post" action="/step2" th:object="${filmForm}">
     <input type="hidden" class="form-control" th:field="*{title}"/>

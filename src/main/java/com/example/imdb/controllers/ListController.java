@@ -8,12 +8,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 /**
  * Created by Matt on 7/5/2017.
  */
-@Controller(value="list")
+@Controller
 public class ListController {
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value="lists", method = RequestMethod.GET)
     public String listIndex (Model model) {
-        return "list/index";
+        model.addAttribute("title","Return the database in different orders");
+        return "lists/index";
     }
 
 }
