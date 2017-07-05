@@ -5,16 +5,6 @@
 }
 
 */
-table {
-    counter-reset: rowNumber;
-}
-
-table tr {
-
-}
-table tr th{
-    counter-reset: rowNumber;
-}
 select{
     color:black;
 }
@@ -24,8 +14,15 @@ option {
 input {
     color:black;
 }
+table {
+    counter-reset: rowNumber;
+}
 
-table tr td:first-child::before {
+table tr th{
+    counter-reset: rowNumber;
+}
+
+#table-ratings tr td:first-child::before {
     content: counter(rowNumber);
     min-width: 1em;
     margin-right: 0.5em;
@@ -81,8 +78,8 @@ nav ul li {
 }
 
 img {
-    width: 100%;
-    max-width: 100%;
+    width: 33%;
+    max-width: 33%;
 }
 
 p {

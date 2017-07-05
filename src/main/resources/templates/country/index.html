@@ -10,7 +10,7 @@
 <p th:unless="${countries} and ${countries.size()}">no countries :(</p>
 
 <ul>
-    <li th:each="country : ${countries}"><a th:href="@{'/country/view/'+${country.id}}" th:text="${country.name}"></a></li>
+    <li th:each="country : ${countries}"><a th:href="@{'/country/view/'+${country.id}}" th:text="${country.name}+' ('+${country.films.size()}+' films)'"></a></li>
 </ul>
 
 </body>

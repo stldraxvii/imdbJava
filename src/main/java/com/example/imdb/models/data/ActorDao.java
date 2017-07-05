@@ -1,7 +1,6 @@
 package com.example.imdb.models.data;
 
 import com.example.imdb.models.Actor;
-import com.example.imdb.models.Genre;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

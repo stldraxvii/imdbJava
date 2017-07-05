@@ -10,7 +10,7 @@
 <p th:unless="${genres} and ${genres.size()}">no actors :(</p>
 
 <ul>
-    <li th:each="genre : ${genres}"><a th:href="@{'/genre/view/'+${genre.id}}" th:text="${genre.name}"></a></li>
+    <li th:each="genre : ${genres}"><a th:href="@{'/genre/view/'+${genre.id}}" th:text="${genre.name}+' ('+${genre.films.size()}+' films)'"></a></li>
 </ul>
 
 

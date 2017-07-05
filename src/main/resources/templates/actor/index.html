@@ -10,7 +10,7 @@
 <p th:unless="${actors} and ${actors.size()}">no actors :(</p>
 
 <ul>
-    <li th:each="actor : ${actors}"><a th:href="@{'/actor/view/'+${actor.id}}" th:text="${actor.name}"></a></li>
+    <li th:each="actor : ${actors}"><a th:href="@{'/actor/view/'+${actor.id}}" th:text="${actor.name}+' ('+${actor.films.size()}+' films)'"></a></li>
 </ul>
 
 
