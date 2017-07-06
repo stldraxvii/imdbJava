@@ -9,10 +9,18 @@
 <div th:replace="fragments :: page-header"></div>
 <p th:unless="${actors} and ${actors.size()}">no actors :(</p>
 
-<ul>
-    <li th:each="actor : ${actors}"><a th:href="@{'/actor/view/'+${actor.id}}" th:text="${actor.name}+' ('+${actor.films.size()}+' films)'"></a></li>
-</ul>
-
+<table class="table">
+    <tr>
+        <td>Name</td>
+        <td>Number of Films</td>
+        <td>Average Rating</td>
+    </tr>
+    <tr th:each="index : ${#numbers.sequence(0,#arrays.length(actors)-1)}">
+        <td><a th:href="@{'/actor/view/'+${actors[index].id}}" th:text="${actors[index].name}"></a></td>
+        <td th:text="${actors[index].films.size()}"></td>
+        <td th:text="${averages[index]}"></td>
+    </tr>
+</table>
 
 </body>
 </html>

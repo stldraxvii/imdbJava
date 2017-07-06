@@ -15,4 +15,15 @@ import java.util.List;
 public interface FilmDao extends CrudRepository<Film, Integer>{
     public List<Film> findAllByOrderByAverageDesc();
     public List<Film> findTop50ByOrderByAverageDesc();
+    public List<Film> findTop100ByOrderByAverageDesc();
+    public List<Film> findTop250ByOrderByAverageDesc();
+
+    public List<Film> findAllByOrderByAverageAsc();
+    public List<Film> findTop100ByOrderByAverageAsc();
+    public List<Film> findTop250ByOrderByAverageAsc();
+
+    public List<Film> findAllByOrderByYearAsc();
+    public List<Film> findAllByOrderByYearDesc();
+
+    public List<Film> findAllByOrderByNameAsc();
 }

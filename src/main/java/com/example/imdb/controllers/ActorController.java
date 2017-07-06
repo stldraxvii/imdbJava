@@ -27,7 +27,19 @@ public class ActorController {
     @RequestMapping(method= RequestMethod.GET)
     public String index (Model model) {
         Iterable<Actor> actors = actorDao.findAllByOrderByNameAsc();
+        ArrayList<String> averages = new ArrayList<>();
+        for (Actor actor : actors){
+            double total = 0;
+            int count = 0;
+            for (Film film : actor.getFilms()) {
+                total += film.getAverage();
+                count += 1;
+            }
+            String average = Double.toString(Film.round((total/count),3));
+            averages.add(average);
+        }
         model.addAttribute("title","List of Actors");
+        model.addAttribute("averages",averages);
         model.addAttribute("actors",actors);
         return"actor/index";
     }

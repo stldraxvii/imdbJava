@@ -9,9 +9,18 @@
 <div th:replace="fragments :: page-header"></div>
 <p th:unless="${countries} and ${countries.size()}">no countries :(</p>
 
-<ul>
-    <li th:each="country : ${countries}"><a th:href="@{'/country/view/'+${country.id}}" th:text="${country.name}+' ('+${country.films.size()}+' films)'"></a></li>
-</ul>
+<table class="table">
+    <tr>
+        <td>Name</td>
+        <td>Number of Films</td>
+        <td>Average Rating</td>
+    </tr>
+    <tr th:each="index : ${#numbers.sequence(0,#arrays.length(countries)-1)}">
+        <td><a th:href="@{'/country/view/'+${countries[index].id}}" th:text="${countries[index].name}"></a></td>
+        <td th:text="${countries[index].films.size()}"></td>
+        <td th:text="${averages[index]}"></td>
+    </tr>
+</table>
 
 </body>
 </html>

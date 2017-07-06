@@ -28,7 +28,19 @@ public class CountryController {
     @RequestMapping(method= RequestMethod.GET)
     public String index (Model model) {
         Iterable<Country> countries = countryDao.findAllByOrderByNameAsc();
+        ArrayList<String> averages = new ArrayList<>();
+        for (Country country : countries){
+            double total = 0;
+            int count = 0;
+            for (Film film : country.getFilms()) {
+                total += film.getAverage();
+                count += 1;
+            }
+            String average = Double.toString(Film.round((total/count),3));
+            averages.add(average);
+        }
         model.addAttribute("title", "List of Countries");
+        model.addAttribute("averages",averages);
         model.addAttribute("countries", countries);
         return"country/index";
     }

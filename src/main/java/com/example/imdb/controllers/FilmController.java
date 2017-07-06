@@ -125,7 +125,7 @@ public class FilmController {
 
             JsonObject obj = rdr.readObject();
             JsonObject results = obj.getJsonArray("movie_results").getJsonObject(0);
-            String tmdbRating = results.getJsonNumber("vote_average").toString();
+            String tmdbRating = Double.toString(Film.round(results.getJsonNumber("vote_average").doubleValue(),3));
 
             //Country
             ArrayList<Country> countriesToAdd = new ArrayList<>();
